@@ -1,0 +1,13 @@
+.mainContant{
+    padding:5px;
+}
+.headerComponent{
+    background-color:var(--white) !important;
+    >a{
+        color: var(--black);
+        margin: 0 20px;
+        &:hover{
+            color: blue
+        }
+    }
+}
