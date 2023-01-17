@@ -1,0 +1,37 @@
+.mainPage {
+  background-color: var(--white);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > div {
+    background-color: var(--black);
+    border: 1px solid black;
+    padding: 30px 20px 0 20px;
+    border-radius: 8px;
+    
+  }
+  .labelClr {
+    > div {
+      > div {
+        text-align:left !important;
+        > label {
+        color: var(--white) !important;
+        }
+      }
+    }
+  }
+  .roleSelect {
+    width: 100% !important;
+  }
+  .sbmtBtn {
+    margin-top: 20px;
+    background-color: var(--white) !important;
+     
+    color:var(--black) !important;
+    &:hover {
+      background-color: var(--white);
+      color: black;
+    }
+  }
+}
