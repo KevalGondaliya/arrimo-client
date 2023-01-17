@@ -55,7 +55,7 @@ export const loginApi =
         onSuccessCallback(response.status);
         console.log(response);
         dispatch(setUser(response.data?.data?.user));
-        dispatch(setToken(response.data?.token));
+        dispatch(setToken(response.data?.data?.token));
         dispatch(setIsLoginLoading(false));
       };
       const onFailure = (error: any) => {
