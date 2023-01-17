@@ -2,89 +2,67 @@ import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useState } from "react";
-import { Modal, Button, Form, Input, DatePicker } from "antd";
-import type { DatePickerProps } from "antd";
+import React, { useRef, useState } from "react";
+import { createEventId, INITIAL_EVENTS } from "./event.utils";
+import { Button, DatePicker, DatePickerProps, Form, Input, Modal } from "antd";
+
 import styles from "./index.module.scss";
 import moment from "moment";
-import { createEventId, INITIAL_EVENTS } from "./event.utils";
 
 const calander = () => {
-  const [weekendsVisible, setWeekendsVisible] = useState<Boolean>(true);
   const [currentEvents, setCurrentEvents] = useState<any>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState<string | null>(null);
+  const [count, setCount] = useState<number>(0);
   const [startDate, setStart] = useState<string | moment.Moment | null>(null);
   const [endDate, setEnd] = useState<string | moment.Moment | null>(null);
   const [form] = Form.useForm();
-  const handleDateSelect = (info: any) => {
-    // setIsModalOpen(true);
-    // let title = prompt("Please enter a new title for your event");
-
-    setIsModalOpen(true);
-    // calendarApi.unselect() // clear date selection
-    const { start, end } = info;
-    console.log(info);
-
-    if (title) {
-      setCurrentEvents([
-        ...currentEvents,
-        {
-          start,
-          end,
-          title: title,
-          id: createEventId(),
-        },
-      ]);
-    }
-    // console.log(selectedDates.startStr);
-    // setStart(selectedDates.startStr)
-    // setStart(selectedDates.endStr)
-    // form.resetFields();
-  };
-  console.log(currentEvents);
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setTitle(null)
+    setStart(null)
+    setEnd(null)
     form.resetFields();
   };
-  const handleonFinish = (values: any) => {
-    values.start = moment(startDate);
-    values.end = endDate;
+
+  const handleonFinish = () => {
+    setCount(count + 1)
+    setCurrentEvents([...currentEvents, {
+      id: createEventId(),
+      title: title,
+      start: startDate,
+      end: endDate
+    }]);
+    setTitle(null)
     setIsModalOpen(false);
-    setCurrentEvents(values);
+    setStart(null)
+    setEnd(null)
     form.resetFields();
   };
-  function handleOnClick(selectedDates: any) {
-    setIsModalOpen(true);
-    console.log(selectedDates.startStr);
-    setStart(selectedDates.startStr);
-    setStart(selectedDates.endStr);
-    form.resetFields();
-  }
+
   const handleStartDateChange: DatePickerProps["onChange"] = (date: any) => {
-    setStart(date);
+    setStart(moment(date).format('YYYY-MM-DD'));
   };
 
   const handleEndDateChange: DatePickerProps["onChange"] = (date: any) => {
-    setEnd(date);
+    setEnd(moment(date).format('YYYY-MM-DD'));
   };
 
   const handleEventClick = (clickInfo: any) => {
-    // var title = prompt("Edit Event Content:", clickInfo.event.title);
-    // clickInfo.event.title = title;
-    // console.log(clickInfo);
-
-    console.log(clickInfo);
-    console.log(clickInfo.event.startStr);
-    console.log(clickInfo.event.endStr);
-    if (
-      confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}' event start date '${clickInfo.event.startStr}'`
-      )
-    ) {
-      clickInfo.event.remove();
-    }
+    console.log('clickInfo', clickInfo);
+    console.log('currentEvents', currentEvents);
+    setTitle(clickInfo.event.title)
+    setIsModalOpen(true);
+    setStart(clickInfo.event.startStr)
+    setEnd(clickInfo.event.endStr)
+    // if (
+    //   confirm(
+    //     `Are you sure you want to delete the event '${clickInfo.event.title}' event start date '${clickInfo.event.startStr}'`
+    //   )
+    // ) {
+    //   clickInfo.event.remove();
+    // }
   };
 
   return (
@@ -100,29 +78,36 @@ const calander = () => {
         events={currentEvents}
         editable={true}
         selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        initialEvents={INITIAL_EVENTS}
-        select={handleDateSelect}
+
+        select={(e) => {
+          console.log('event check', e);
+          setStart(e.startStr)
+          setEnd(e.endStr)
+          setIsModalOpen(true);
+        }}
         eventContent={renderEventContent}
         eventClick={handleEventClick}
+      // eventsSet={() => handleEvents()}
       />
       <Modal
+        key={count}
         title="Basic Modal"
         open={isModalOpen}
         footer={false}
         onCancel={() => handleCancel()}
       >
         <Form
+          key={count}
           name="basic"
           form={form}
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
-          onFinish={handleonFinish}
+
           autoComplete="off"
         >
           <Form.Item
+            key={count}
             label="Title"
             className={styles.labelClr}
             name="title"
@@ -134,11 +119,11 @@ const calander = () => {
             label="start Date"
             className={styles.labelClr}
             name="start"
-            rules={[{ required: true, message: "Please select start date" }]}
+          // rules={[{ required: true, message: "Please select start date" }]}
           >
             <DatePicker
               //@ts-ignore
-              value={startDate ? moment(startDate, "MM-DD-YYYY") : null}
+              defaultValue={moment(startDate, 'YYYY-MM-DD')}
               format="MM-DD-YYYY"
               className={styles.datePicker}
               onChange={handleStartDateChange}
@@ -149,11 +134,11 @@ const calander = () => {
             label="End Date"
             name="end"
             className={styles.labelClr}
-            rules={[{ required: true, message: "Please select end date" }]}
+          // rules={[{ required: true, message: "Please select end date" }]}
           >
             <DatePicker
               //@ts-ignore
-              value={endDate ? moment(endDate, "MM-DD-YYYY") : null}
+              defaultValue={moment(endDate, 'YYYY-MM-DD').subtract(1, 'days')}
               className={styles.datePicker}
               format="MM-DD-YYYY"
               onChange={handleEndDateChange}
@@ -161,7 +146,7 @@ const calander = () => {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+            <Button onClick={handleonFinish} type="primary" htmlType="button">
               Submit
             </Button>
           </Form.Item>

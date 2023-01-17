@@ -2,6 +2,11 @@
     padding:5px;
 }
 .headerComponent{
+    position: static;
+    top: 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
     background-color:var(--white) !important;
     >a{
         color: var(--black);

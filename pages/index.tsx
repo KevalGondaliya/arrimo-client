@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
-import Login from "./Authentication/Index";
+import Login from "./login/Index";
 
 const inter = Inter({ subsets: ["latin"] });
 
