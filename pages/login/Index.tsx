@@ -14,7 +14,7 @@ export default function Login() {
     const onSuccessCallback = (response: any) => {
       if (response === 200) {
         router.push({
-          pathname: "/dashboard",
+          pathname: "/table",
         });
       } else {
         notification.error({
