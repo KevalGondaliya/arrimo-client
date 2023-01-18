@@ -3,9 +3,11 @@ import UserSlice from "./UserSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import CalanderSlice from "./calanderSlice";
 
 const reducer = combineReducers({
   user: UserSlice,
+  event: CalanderSlice,
 });
 const persistConfig = {
   key: "root",
