@@ -1,19 +1,22 @@
-import { apiUrl } from "@/apiUrl/apiUrl";
-import { apiCall } from "@/utils/utils"; 
-import {setLocalStorageValue} from '@/utils/localStorage'
-import { createSlice } from "@reduxjs/toolkit"; 
+import { toast } from "react-toastify";
 import { AppDispatch } from "./Index";
+import { apiCall } from "@/utils/utils";
+import { apiUrl } from "@/utils/apiUrl";
+import { createSlice } from "@reduxjs/toolkit";
+import { setLocalStorageValue } from "@/utils/localStorage";
 
 // create a slice
 export interface UserState {
   token: string | null;
   isLoading: boolean;
-  userData: any | null;
+  userData: [] | null;
+  logInUserData: object;
 }
 const initialState: UserState = {
   token: null,
   isLoading: false,
-  userData: null,
+  userData: [],
+  logInUserData: {},
 };
 export interface User {
   createdAt: string;
@@ -33,18 +36,20 @@ export const userSlice = createSlice({
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
-      console.log(action.payload);
     },
     setUser: (state, action) => {
       state.userData = action.payload;
-      console.log(action.payload);
+    },
+    logInUser: (state, action) => {
+      state.logInUserData = action.payload;
     },
     setIsLoginLoading: (state, action) => {
       state.isLoading = action.payload;
     },
   },
 });
-export const { setToken, setUser, setIsLoginLoading } = userSlice.actions;
+export const { setToken, setUser, logInUser, setIsLoginLoading } =
+  userSlice.actions;
 export default userSlice.reducer;
 export const loginApi =
   (value: any, onSuccessCallback: Function) => (dispatch: AppDispatch) => {
@@ -53,7 +58,7 @@ export const loginApi =
       const onSuccess = (response: any) => {
         onSuccessCallback(response.status);
         console.log(response);
-        dispatch(setUser(response.data?.data?.user));
+        dispatch(logInUser(response.data?.user));
         dispatch(setToken(response.data?.token));
         setLocalStorageValue(response.data?.token);
         dispatch(setIsLoginLoading(false));
@@ -70,3 +75,89 @@ export const loginApi =
       dispatch(setIsLoginLoading(false));
     }
   };
+
+export const setUserApi =
+  (value: any, onSuccessCallback: Function) => (dispatch: AppDispatch) => {
+    dispatch(setIsLoginLoading(true));
+    try {
+      const onSuccess = (response: any) => {
+        onSuccessCallback(response.status);
+        dispatch(getUserApi());
+        dispatch(setIsLoginLoading(false));
+      };
+      const onFailure = (error: any) => {
+        onSuccessCallback(error);
+        toast.error(error);
+        dispatch(setIsLoginLoading(false));
+      };
+
+      apiCall("POST", apiUrl.setUser, value, onSuccess, onFailure);
+    } catch (error) {
+      console.log(error);
+
+      dispatch(setIsLoginLoading(false));
+    }
+  };
+
+export const getUserApi = () => (dispatch: AppDispatch) => {
+  dispatch(setIsLoginLoading(true));
+  try {
+    const onSuccess = (response: any) => {
+      console.log(response);
+      dispatch(setUser(response.data));
+      dispatch(setIsLoginLoading(false));
+    };
+    const onFailure = (error: any) => {
+      dispatch(setIsLoginLoading(false));
+    };
+
+    apiCall("GET", apiUrl.setUser, "", onSuccess, onFailure);
+  } catch (error) {
+    console.log(error);
+
+    dispatch(setIsLoginLoading(false));
+  }
+};
+
+export const editUserApi =
+  (value: any, id: number, onSuccessCallback: Function) =>
+  (dispatch: AppDispatch) => {
+    dispatch(setIsLoginLoading(true));
+    try {
+      const onSuccess = (response: any) => {
+        onSuccessCallback(response.status);
+        dispatch(getUserApi());
+        dispatch(setIsLoginLoading(false));
+      };
+      const onFailure = (error: any) => {
+        onSuccessCallback(error);
+        toast.error(error);
+        dispatch(setIsLoginLoading(false));
+      };
+
+      apiCall("PATCH", `${apiUrl.editUser}/${id}`, value, onSuccess, onFailure);
+    } catch (error) {
+      console.log(error);
+
+      dispatch(setIsLoginLoading(false));
+    }
+  };
+export const deleteUserApi = (id: number) => (dispatch: AppDispatch) => {
+  dispatch(setIsLoginLoading(true));
+  try {
+    const onSuccess = (response: any) => {
+      dispatch(getUserApi());
+      dispatch(setIsLoginLoading(false));
+    };
+    const onFailure = (error: any) => {
+      toast.error(error);
+      dispatch(setIsLoginLoading(false));
+    };
+
+    apiCall("DELETE", `${apiUrl.deleteUser}/${id}`, "", onSuccess, onFailure);
+  } catch (error) {
+    console.log(error);
+
+    dispatch(setIsLoginLoading(false));
+  }
+};

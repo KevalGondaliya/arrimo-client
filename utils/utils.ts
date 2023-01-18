@@ -1,5 +1,7 @@
-import {   toast } from 'react-toastify'; 
-export const headers:any = {
+import { toast } from "react-toastify";
+import { getLocalStorageValue } from "@/utils/localStorage";
+
+export const headers: any = {
   "Content-Type": "application/json",
   accept: "application/json",
   "Access-Control-Allow-Headers": "Content-Type",
@@ -8,29 +10,30 @@ export const headers:any = {
   "Access-Control-Request-Method": "POST, GET, DELETE",
   "Access-Control-Request-Headers": "POST, GET, DELETE",
 };
+const token = getLocalStorageValue();
+console.log(token);
 
 export function apiCall(
   requestMethod: any,
   url: any,
   body: any,
   onSuccess: any,
-  onFailure: any,
-  accessToken = null
+  onFailure: any
 ) {
-  if (accessToken !== null) {
-    headers["Authorization"] = "Bearer " + accessToken;
+  if (token !== null) {
+    headers["Authorization"] = "Bearer " + token;
   }
-  let formData:any = {
+  let formData: any = {
     method: requestMethod,
     headers: headers,
   };
-  let formBody:any = JSON.stringify(body);
+  let formBody: any = JSON.stringify(body);
 
   if (body !== undefined && body !== "") {
     formData["body"] = formBody;
   }
 
-  fetch(url, formData )
+  fetch(url, formData)
     .then((response) => {
       response
         .json()

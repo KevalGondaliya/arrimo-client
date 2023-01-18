@@ -1,25 +1,25 @@
-.mainContant{
-    padding:5px;
+.mainContant {
+  padding: 5px;
 }
-.headerMain{
+.headerMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .headerComponent {
+    position: static;
+    top: 0;
+    height: 50px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding:0 50px;
-    .headerComponent{
-        position: static;
-        top: 0;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: left;
-    background-color:var(--white) !important;
-    >a{
-        color: var(--black);
-        margin: 0 20px;
-        &:hover{
-            color: blue
-        }
+    justify-content: left;
+    background-color: var(--white) !important;
+    > a {
+      color: var(--black);
+      margin: 0 20px;
+      &:hover {
+        color: blue;
+      }
     }
-    }
+  }
 }

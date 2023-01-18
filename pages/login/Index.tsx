@@ -1,30 +1,35 @@
-import { Button, Form, Input, notification, Select } from "antd";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Form, Input, notification } from "antd";
+import { getLocalStorageValue } from "@/utils/localStorage";
+
+import { AppDispatch } from "../../store/Index";
+import { loginApi } from "../../store/UserSlice";
 
 import styles from "./index.module.scss";
-import {useEffect} from 'react';
-import { loginApi } from "../../store/UserSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/Index";
-import { getLocalStorageValue} from '@/utils/localStorage'
+
 export default function Login() {
   const router = useRouter();
-  console.log("log in")
+
   const dispatch: AppDispatch = useDispatch();
-const token =  getLocalStorageValue()
-useEffect(()=>{
- if(token){
-  router.push({
-    pathName:"/dashboard",
-  })
- }
-},[])
+  const token = getLocalStorageValue();
+  const logInUserRole = useSelector(
+    (state: any) => state.user.logInUserData.role
+  );
+  useEffect(() => {
+    if (token) {
+      router.push({
+        pathname: "/user",
+      });
+    }
+  }, []);
 
   const onFinish = (values: any) => {
     const onSuccessCallback = (response: any) => {
       if (response === 200) {
         router.push({
-          pathname: "/dashboard",
+          pathname: logInUserRole === "admin" ? "/user" : "/calander",
         });
       } else {
         notification.error({
@@ -34,9 +39,7 @@ useEffect(()=>{
     };
     dispatch(loginApi(values, onSuccessCallback));
   };
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
   return (
     <div className={styles.mainPage}>
       <div>
@@ -66,7 +69,7 @@ useEffect(()=>{
           >
             <Input.Password />
           </Form.Item>
-        
+
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button className={styles.sbmtBtn} type="primary" htmlType="submit">
               Log In

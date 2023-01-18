@@ -8,7 +8,8 @@ import { Button, DatePicker, DatePickerProps, Form, Input, Modal } from "antd";
 
 import styles from "./index.module.scss";
 import moment from "moment";
-import { PrivateLayout } from "@/privateLayout/PrivateLayout";
+import { PrivateLayout } from "@/component/privateLayout/PrivateLayout";
+import Header from "@/component/header";
 
 const calander = () => {
   const [currentEvents, setCurrentEvents] = useState<any>([]);
@@ -21,42 +22,45 @@ const calander = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    setTitle(null)
-    setStart(null)
-    setEnd(null)
+    setTitle(null);
+    setStart(null);
+    setEnd(null);
     form.resetFields();
   };
 
   const handleonFinish = () => {
-    setCount(count + 1)
-    setCurrentEvents([...currentEvents, {
-      id: createEventId(),
-      title: title,
-      start: startDate,
-      end: endDate
-    }]);
-    setTitle(null)
+    setCount(count + 1);
+    setCurrentEvents([
+      ...currentEvents,
+      {
+        id: createEventId(),
+        title: title,
+        start: startDate,
+        end: endDate,
+      },
+    ]);
+    setTitle(null);
     setIsModalOpen(false);
-    setStart(null)
-    setEnd(null)
+    setStart(null);
+    setEnd(null);
     form.resetFields();
   };
 
   const handleStartDateChange: DatePickerProps["onChange"] = (date: any) => {
-    setStart(moment(date).format('YYYY-MM-DD'));
+    setStart(moment(date).format("YYYY-MM-DD"));
   };
 
   const handleEndDateChange: DatePickerProps["onChange"] = (date: any) => {
-    setEnd(moment(date).format('YYYY-MM-DD'));
+    setEnd(moment(date).format("YYYY-MM-DD"));
   };
 
   const handleEventClick = (clickInfo: any) => {
-    console.log('clickInfo', clickInfo);
-    console.log('currentEvents', currentEvents);
-    setTitle(clickInfo.event.title)
+    console.log("clickInfo", clickInfo);
+    console.log("currentEvents", currentEvents);
+    setTitle(clickInfo.event.title);
     setIsModalOpen(true);
-    setStart(clickInfo.event.startStr)
-    setEnd(clickInfo.event.endStr)
+    setStart(clickInfo.event.startStr);
+    setEnd(clickInfo.event.endStr);
     // if (
     //   confirm(
     //     `Are you sure you want to delete the event '${clickInfo.event.title}' event start date '${clickInfo.event.startStr}'`
@@ -68,8 +72,7 @@ const calander = () => {
 
   return (
     <PrivateLayout>
-      <Dashboard>
-
+      <Header />
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         headerToolbar={{
@@ -81,16 +84,15 @@ const calander = () => {
         events={currentEvents}
         editable={true}
         selectable={true}
-
         select={(e) => {
-          console.log('event check', e);
-          setStart(e.startStr)
-          setEnd(e.endStr)
+          console.log("event check", e);
+          setStart(e.startStr);
+          setEnd(e.endStr);
           setIsModalOpen(true);
         }}
         eventContent={renderEventContent}
         eventClick={handleEventClick}
-      // eventsSet={() => handleEvents()}
+        // eventsSet={() => handleEvents()}
       />
       <Modal
         key={count}
@@ -106,7 +108,6 @@ const calander = () => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
-
           autoComplete="off"
         >
           <Form.Item
@@ -122,11 +123,11 @@ const calander = () => {
             label="start Date"
             className={styles.labelClr}
             name="start"
-          // rules={[{ required: true, message: "Please select start date" }]}
+            // rules={[{ required: true, message: "Please select start date" }]}
           >
             <DatePicker
               //@ts-ignore
-              defaultValue={moment(startDate, 'YYYY-MM-DD')}
+              defaultValue={moment(startDate, "YYYY-MM-DD")}
               format="MM-DD-YYYY"
               className={styles.datePicker}
               onChange={handleStartDateChange}
@@ -137,11 +138,11 @@ const calander = () => {
             label="End Date"
             name="end"
             className={styles.labelClr}
-          // rules={[{ required: true, message: "Please select end date" }]}
+            // rules={[{ required: true, message: "Please select end date" }]}
           >
             <DatePicker
               //@ts-ignore
-              defaultValue={moment(endDate, 'YYYY-MM-DD').subtract(1, 'days')}
+              defaultValue={moment(endDate, "YYYY-MM-DD").subtract(1, "days")}
               className={styles.datePicker}
               format="MM-DD-YYYY"
               onChange={handleEndDateChange}
@@ -155,7 +156,6 @@ const calander = () => {
           </Form.Item>
         </Form>
       </Modal>
-      </Dashboard>
     </PrivateLayout>
   );
 };

@@ -1,26 +1,20 @@
-import "../styles/globals.scss";
-import type { AppProps } from "next/app";
-import { fetcher } from "../utils/fetch";
 import { Provider } from "react-redux";
-import { SWRConfig } from "swr";
-import store from "../store/Index";
-import Layout from "@/component/Layout";
-import "react-toastify/dist/ReactToastify.css";
+import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
+import { PersistGate } from "redux-persist/integration/react";
+
+import store, { persistor } from "../store/Index";
+
+import "../styles/globals.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    // <Layout>
-    <SWRConfig
-      value={{
-        fetcher,
-      }}
-    >
-      <Provider store={store}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
         <Component {...pageProps} />
         <ToastContainer />
-      </Provider>
-    </SWRConfig>
-    // </Layout>
+      </PersistGate>
+    </Provider>
   );
 }
