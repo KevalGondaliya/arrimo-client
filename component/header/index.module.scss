@@ -3,18 +3,21 @@
 }
 .headerMain {
   display: flex;
+  box-shadow: 0px 4px 11px -4px rgba(0, 0, 0, 0.63);
+  margin-bottom: 20px;
   align-items: center;
+  padding: 0 70px;
   justify-content: space-between;
 
   .headerComponent {
+    width: 100% !important;
     position: static;
     top: 0;
-    height: 50px;
+    height: 80px;
     display: flex;
     align-items: center;
-    justify-content: left;
     background-color: var(--white) !important;
-    > a {
+    a {
       color: var(--black);
       margin: 0 20px;
       &:hover {

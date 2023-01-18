@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "antd";
+import { Button, Col, Row } from "antd";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { getLocalStorageValue } from "@/utils/localStorage";

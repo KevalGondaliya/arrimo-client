@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 
 export default function UserTable() {
   interface DataType {
+    isDelete: any;
     id: number;
     key: string;
     name: string;
@@ -49,6 +50,7 @@ export default function UserTable() {
 
   const handleOnFinish = (values: any) => {
     values.role = "user";
+    values.passowrd = "123456";
     const onSuccessCallback = (res: any) => {
       if (res === 200) {
         setIsEdit(false);
@@ -108,18 +110,19 @@ export default function UserTable() {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <Space size="middle">
-          <Button onClick={() => handleOnEdit(record)}>Edit</Button>
-          <Button onClick={() => handleOnDelete(record.id)}>Delete</Button>
-        </Space>
-      ),
+      render: (_, record) =>
+        !record?.isDelete && (
+          <Space size="middle">
+            <Button onClick={() => handleOnEdit(record)}>Edit</Button>
+            <Button onClick={() => handleOnDelete(record.id)}>Delete</Button>
+          </Space>
+        ),
     },
   ];
   return (
     <PrivateLayout>
       <Row justify="center">
-        <Col xxl={22}>
+        <Col xxl={24}>
           <Header />
         </Col>
         <Col xxl={22} className={styles.userButton}>
@@ -170,16 +173,6 @@ export default function UserTable() {
           >
             <Input />
           </Form.Item>
-          {!isEdit && (
-            <Form.Item
-              label="Password"
-              name="password"
-              className={styles.labelClr}
-              rules={[{ required: true, message: "Please input your email" }]}
-            >
-              <Input />
-            </Form.Item>
-          )}
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
