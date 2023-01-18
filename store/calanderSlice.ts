@@ -3,7 +3,6 @@ import { AppDispatch } from "./Index";
 import { apiCall } from "@/utils/utils";
 import { apiUrl } from "@/utils/apiUrl";
 import { createSlice } from "@reduxjs/toolkit";
-import { setLocalStorageValue } from "@/utils/localStorage";
 
 // create a slice
 export interface UserState {

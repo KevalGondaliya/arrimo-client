@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Button, Col, Row } from "antd";
+import { Button } from "antd";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { logOutUser } from "@/store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { getLocalStorageValue } from "@/utils/localStorage";
 
 import styles from "./index.module.scss";
@@ -9,10 +10,12 @@ import styles from "./index.module.scss";
 export default function Header() {
   const token = getLocalStorageValue();
   const router = useRouter();
-  const userRole = useSelector((state: any) => state.user.logInUserData.role);
-
+  const dispatch = useDispatch();
+  const userRole = useSelector((state: any) => state.user.logInUserData);
+  const loader = useSelector((state: any) => state.user.isLoading);
   const handleOnClear = () => {
     localStorage.clear();
+    dispatch(logOutUser());
     router.push({
       pathname: "/",
     });
@@ -21,7 +24,7 @@ export default function Header() {
   return (
     <div className={styles.headerMain}>
       <div className={styles.headerComponent}>
-        {userRole === "admin" && <Link href="/user">User</Link>}
+        {userRole.role === "admin" && <Link href="/user">User</Link>}
         <Link
           className={router.pathname == "/dashboard" ? "active" : ""}
           href="/calander"
@@ -30,9 +33,14 @@ export default function Header() {
         </Link>
       </div>
       {token && (
-        <div>
-          <Button onClick={handleOnClear}>LogOut</Button>
-        </div>
+        <>
+          <div>{userRole && `${userRole?.firstName} ${userRole.lastName}`}</div>
+          <div>
+            <Button loading={loader} onClick={handleOnClear}>
+              LogOut
+            </Button>
+          </div>
+        </>
       )}
     </div>
   );

@@ -11,7 +11,6 @@ export const headers: any = {
   "Access-Control-Request-Headers": "POST, GET, DELETE",
 };
 const token = getLocalStorageValue();
-console.log(token);
 
 export function apiCall(
   requestMethod: any,
