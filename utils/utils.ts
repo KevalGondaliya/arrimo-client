@@ -1,36 +1,53 @@
-import axios from "axios";
+import {   toast } from 'react-toastify'; 
+export const headers:any = {
+  "Content-Type": "application/json",
+  accept: "application/json",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "access-control-allow-credentials": true,
+  "Access-Control-Allow-Methods": "POST, GET, DELETE",
+  "Access-Control-Request-Method": "POST, GET, DELETE",
+  "Access-Control-Request-Headers": "POST, GET, DELETE",
+};
 
 export function apiCall(
   requestMethod: any,
   url: any,
-  data: any,
+  body: any,
   onSuccess: any,
-  onFailure: any
+  onFailure: any,
+  accessToken = null
 ) {
-  var formData: any = {
+  if (accessToken !== null) {
+    headers["Authorization"] = "Bearer " + accessToken;
+  }
+  let formData:any = {
     method: requestMethod,
-    url: url,
+    headers: headers,
   };
+  let formBody:any = JSON.stringify(body);
 
-  var formBody: any = data;
+  if (body !== undefined && body !== "") {
+    formData["body"] = formBody;
+  }
 
-  if (data !== undefined && data !== "") {
-    formData["data"] = formBody;
-  }
-  try {
-    axios(formData)
-      .then((response) => response)
-      .then((responseJson) => {
-        if (responseJson) {
-          onSuccess(responseJson);
-        } else {
-          onFailure(responseJson);
-        }
-      })
-      .catch((e) => {
-        onFailure(e.response.data);
-      });
-  } catch (e) {
-    console.log("server disconnected");
-  }
+  fetch(url, formData )
+    .then((response) => {
+      response
+        .json()
+        .then((responseJson) => {
+          if (responseJson.status === 200) {
+            onSuccess(responseJson);
+          } else {
+            onFailure(responseJson);
+          }
+        })
+        .catch((error) => {
+          toast.error(error);
+          onFailure(error);
+        });
+    })
+    .catch((error) => {
+      toast.error(error);
+      onFailure(error);
+    });
 }

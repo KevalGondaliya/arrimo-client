@@ -1,8 +1,7 @@
 import { apiUrl } from "@/apiUrl/apiUrl";
-import { apiCall } from "@/utils/utils";
-import { configureStore, Draft, PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
-import { notification } from "antd";
+import { apiCall } from "@/utils/utils"; 
+import {setUserToken} from '@/utils/localStorage'
+import { createSlice } from "@reduxjs/toolkit"; 
 import { AppDispatch } from "./Index";
 
 // create a slice
@@ -56,6 +55,7 @@ export const loginApi =
         console.log(response);
         dispatch(setUser(response.data?.data?.user));
         dispatch(setToken(response.data?.data?.token));
+        setUserToken(response.data?.data?.token);
         dispatch(setIsLoginLoading(false));
       };
       const onFailure = (error: any) => {

@@ -1,12 +1,18 @@
 .mainContant{
     padding:5px;
 }
-.headerComponent{
-    position: static;
-    top: 0;
-    height: 50px;
+.headerMain{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding:0 50px;
+    .headerComponent{
+        position: static;
+        top: 0;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: left;
     background-color:var(--white) !important;
     >a{
         color: var(--black);
@@ -14,5 +20,6 @@
         &:hover{
             color: blue
         }
+    }
     }
 }
