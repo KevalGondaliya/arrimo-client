@@ -1,19 +1,17 @@
-
 import Header from "../header";
-import {getLocalStorageValue} from "@/utils/localStorage"
+import { getLocalStorageValue } from "@/utils/localStorage";
 
 interface ILayoutProps {
-  children : React.ReactNode
+  children: React.ReactNode;
 }
 
-const Layout: React.FC<ILayoutProps> = ({children}) => {
+const Layout: React.FC<ILayoutProps> = ({ children }) => {
   const token = getLocalStorageValue();
-  return(
+  return (
     <div>
-     <Header/>
-      <Dashboard/>
+      <Header />
     </div>
-  ) ;
+  );
 };
 
 export default Layout;

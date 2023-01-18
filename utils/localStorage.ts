@@ -1,13 +1,13 @@
-export const setLocalStorageValue = (data:string) => {
-    localStorage.setItem("user", data);
-  };
-  
-  export const getLocalStorageValue = () => {
-    if (typeof window !== 'undefined') {
-        // Perform localStorage action
-        const item = localStorage.getItem('user')
-        return item;
-      }
-      return null
-  };
-  
+import { ACCESS_TOKEN } from "./Constant";
+
+export const setLocalStorageValue = (data: string) => {
+  localStorage.setItem(ACCESS_TOKEN, data);
+};
+
+export const getLocalStorageValue = () => {
+  if (typeof window !== "undefined") {
+    const item = localStorage.getItem(ACCESS_TOKEN);
+    return item;
+  }
+  return null;
+};
