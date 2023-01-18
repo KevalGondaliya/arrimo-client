@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Input, notification } from "antd";
 import { getLocalStorageValue } from "@/utils/localStorage";
 import { AppDispatch } from "../../store/Index";
-import { loginApi } from "../../store/userSlice";
+import { loginApi } from "../../store/UserSlice";
 import styles from "./index.module.scss";
 
 export default function Login() {

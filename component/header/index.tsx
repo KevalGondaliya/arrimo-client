@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "antd";
 import { useRouter } from "next/router";
-import { logOutUser } from "@/store/userSlice";
+import { logOutUser } from "@/store/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocalStorageValue } from "@/utils/localStorage";
 
