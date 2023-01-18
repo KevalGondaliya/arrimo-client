@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getUserToken} from "@/utils/localStorage"
+import {getLocalStorageValue} from "@/utils/localStorage"
 import { apiUrl } from "@/apiUrl/apiUrl";
 import { createSelector } from "@reduxjs/toolkit";
 
@@ -28,7 +28,7 @@ import { createSelector } from "@reduxjs/toolkit";
   
 export const fetcher = (url: any   ) => {
 
-  const token = getUserToken()
+  const token = getLocalStorageValue()
    
       axios
         .get(url, { headers: { Authorization: "Bearer " + token } })

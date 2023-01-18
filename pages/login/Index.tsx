@@ -2,19 +2,29 @@ import { Button, Form, Input, notification, Select } from "antd";
 import { useRouter } from "next/router";
 
 import styles from "./index.module.scss";
+import {useEffect} from 'react';
 import { loginApi } from "../../store/UserSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/Index";
-
+import { getLocalStorageValue} from '@/utils/localStorage'
 export default function Login() {
   const router = useRouter();
+  console.log("log in")
   const dispatch: AppDispatch = useDispatch();
+const token =  getLocalStorageValue()
+useEffect(()=>{
+ if(token){
+  router.push({
+    pathName:"/dashboard",
+  })
+ }
+},[])
 
   const onFinish = (values: any) => {
     const onSuccessCallback = (response: any) => {
       if (response === 200) {
         router.push({
-          pathname: "/table",
+          pathname: "/dashboard",
         });
       } else {
         notification.error({

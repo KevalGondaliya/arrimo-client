@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
-import { getUserToken } from '@/utils/localStorage';
+import React, { useEffect,Fragment } from 'react'
+
+import { getLocalStorageValue } from '@/utils/localStorage';
 import { useRouter } from 'next/router';
 
 interface ILayoutProps {
     children : React.ReactNode
   }
 export const PrivateLayout: React.FC<ILayoutProps> = ({children}) => {
-    const token = getUserToken()
+    const token = getLocalStorageValue()
     const router = useRouter()
     useEffect(() => {
         if (!token) {
@@ -14,8 +15,8 @@ export const PrivateLayout: React.FC<ILayoutProps> = ({children}) => {
         }
       }, [token]);
   return (
-    <div>
-        <main>{children}</main>
-    </div>
+    <Fragment >
+         {children} 
+    </Fragment >
   )
 }

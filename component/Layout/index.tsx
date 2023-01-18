@@ -1,19 +1,17 @@
 
 import Header from "../header";
-import {getUserToken} from "@/utils/localStorage"
+import {getLocalStorageValue} from "@/utils/localStorage"
 
 interface ILayoutProps {
   children : React.ReactNode
 }
 
 const Layout: React.FC<ILayoutProps> = ({children}) => {
-  const token = getUserToken();
+  const token = getLocalStorageValue();
   return(
     <div>
-      
-     {<Header/>}
-      
-      {children}
+     <Header/>
+      <Dashboard/>
     </div>
   ) ;
 };
