@@ -2,9 +2,9 @@ import { Button, Form, Input, notification, Select } from "antd";
 import { useRouter } from "next/router";
 
 import styles from "./index.module.scss";
-import { loginApi } from "../store/UserSlice";
+import { loginApi } from "../../store/UserSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/Index";
+import { AppDispatch } from "../../store/Index";
 
 export default function Login() {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function Login() {
           >
             <Input.Password />
           </Form.Item>
-
+        
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button className={styles.sbmtBtn} type="primary" htmlType="submit">
               Log In

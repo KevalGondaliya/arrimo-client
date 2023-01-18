@@ -8,6 +8,7 @@ import { Button, DatePicker, DatePickerProps, Form, Input, Modal } from "antd";
 
 import styles from "./index.module.scss";
 import moment from "moment";
+import { PrivateLayout } from "@/privateLayout/PrivateLayout";
 
 const calander = () => {
   const [currentEvents, setCurrentEvents] = useState<any>([]);
@@ -66,7 +67,7 @@ const calander = () => {
   };
 
   return (
-    <>
+    <PrivateLayout>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         headerToolbar={{
@@ -152,7 +153,7 @@ const calander = () => {
           </Form.Item>
         </Form>
       </Modal>
-    </>
+    </PrivateLayout>
   );
 };
 
