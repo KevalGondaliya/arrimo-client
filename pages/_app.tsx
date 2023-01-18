@@ -10,18 +10,18 @@ import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
+    // <Layout>
       <SWRConfig
         value={{
           fetcher 
         }}
       >
         <Provider store={store}>
-          <ToastContainer> 
           <Component {...pageProps} />
-          </ToastContainer>
+          <ToastContainer /> 
+        
         </Provider>
       </SWRConfig>
-    </Layout>
+    // </Layout>
   );
 }

@@ -68,6 +68,8 @@ const calander = () => {
 
   return (
     <PrivateLayout>
+      <Dashboard>
+
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         headerToolbar={{
@@ -153,6 +155,7 @@ const calander = () => {
           </Form.Item>
         </Form>
       </Modal>
+      </Dashboard>
     </PrivateLayout>
   );
 };

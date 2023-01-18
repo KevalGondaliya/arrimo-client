@@ -1,6 +1,6 @@
 import { apiUrl } from "@/apiUrl/apiUrl";
 import { apiCall } from "@/utils/utils"; 
-import {setUserToken} from '@/utils/localStorage'
+import {setLocalStorageValue} from '@/utils/localStorage'
 import { createSlice } from "@reduxjs/toolkit"; 
 import { AppDispatch } from "./Index";
 
@@ -54,8 +54,8 @@ export const loginApi =
         onSuccessCallback(response.status);
         console.log(response);
         dispatch(setUser(response.data?.data?.user));
-        dispatch(setToken(response.data?.data?.token));
-        setUserToken(response.data?.data?.token);
+        dispatch(setToken(response.data?.token));
+        setLocalStorageValue(response.data?.token);
         dispatch(setIsLoginLoading(false));
       };
       const onFailure = (error: any) => {

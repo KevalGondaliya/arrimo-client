@@ -1,8 +1,8 @@
-export const setUserToken = (data:string) => {
+export const setLocalStorageValue = (data:string) => {
     localStorage.setItem("user", data);
   };
   
-  export const getUserToken = () => {
+  export const getLocalStorageValue = () => {
     if (typeof window !== 'undefined') {
         // Perform localStorage action
         const item = localStorage.getItem('user')
