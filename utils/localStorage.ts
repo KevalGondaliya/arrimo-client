@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN } from "@/utils/constant";
+import { ACCESS_TOKEN } from "./Constant";
 
 export const setLocalStorageValue = (data: string) => {
   localStorage.setItem(ACCESS_TOKEN, data);

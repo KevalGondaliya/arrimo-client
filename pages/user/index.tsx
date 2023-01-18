@@ -8,7 +8,7 @@ import {
   editUserApi,
   getUserApi,
   setUserApi,
-} from "@/store/userSlice";
+} from "@/store/UserSlice";
 import Header from "@/component/header";
 import { AppDispatch } from "@/store/Index";
 import { PrivateLayout } from "@/component/privateLayout/PrivateLayout";
