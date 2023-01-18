@@ -1,20 +1,18 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import type { ColumnsType } from "antd/es/table";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Col, Form, Input, Modal, Row, Space, Table } from "antd";
-
+import { Button, Col, Form, Input, Modal, Row, Space, Spin, Table } from "antd";
 import {
   deleteUserApi,
   editUserApi,
   getUserApi,
   setUserApi,
-} from "@/store/UserSlice";
+} from "@/store/userSlice";
 import Header from "@/component/header";
 import { AppDispatch } from "@/store/Index";
 import { PrivateLayout } from "@/component/privateLayout/PrivateLayout";
-
 import styles from "./index.module.scss";
-import { useRouter } from "next/router";
 
 export default function UserTable() {
   interface DataType {
@@ -27,12 +25,13 @@ export default function UserTable() {
   const dispatch: AppDispatch = useDispatch();
 
   const [isEdit, setIsEdit] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editData, setEditData] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const gerUserData: DataType[] = useSelector(
     (state: any) => state.user.userData
   );
+  const loader = useSelector((state: any) => state.user.isLoading);
   const logInUserRole = useSelector(
     (state: any) => state.user.logInUserData.role
   );
@@ -51,6 +50,7 @@ export default function UserTable() {
   const handleOnFinish = (values: any) => {
     values.role = "user";
     values.passowrd = "123456";
+
     const onSuccessCallback = (res: any) => {
       if (res === 200) {
         setIsEdit(false);
@@ -65,6 +65,7 @@ export default function UserTable() {
       dispatch(setUserApi(values, onSuccessCallback));
     }
   };
+
   const handleCancel = () => {
     setEditData(null);
     setIsModalOpen(false);
@@ -81,6 +82,7 @@ export default function UserTable() {
   const handleOnDelete = (id: number) => {
     dispatch(deleteUserApi(id));
   };
+
   const columns: ColumnsType<DataType> = [
     {
       title: "First Name",
@@ -119,6 +121,7 @@ export default function UserTable() {
         ),
     },
   ];
+
   return (
     <PrivateLayout>
       <Row justify="center">
@@ -129,7 +132,11 @@ export default function UserTable() {
           <Button onClick={handleAddUser}>Add User</Button>
         </Col>
         <Col xxl={22}>
-          <Table columns={columns} dataSource={gerUserData || []} />
+          {loader ? (
+            <Spin />
+          ) : (
+            <Table columns={columns} dataSource={gerUserData || []} />
+          )}
         </Col>
       </Row>
       <Modal
@@ -175,7 +182,7 @@ export default function UserTable() {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+            <Button loading={loader} type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

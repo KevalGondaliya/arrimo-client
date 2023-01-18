@@ -43,12 +43,19 @@ export const userSlice = createSlice({
     logInUser: (state, action) => {
       state.logInUserData = action.payload;
     },
+    logOutUser: (state) => {
+      state.logInUserData = {};
+      state.userData = [];
+      state.token = null;
+      state.isLoading = false;
+    },
+
     setIsLoginLoading: (state, action) => {
       state.isLoading = action.payload;
     },
   },
 });
-export const { setToken, setUser, logInUser, setIsLoginLoading } =
+export const { setToken, setUser, logOutUser, logInUser, setIsLoginLoading } =
   userSlice.actions;
 export default userSlice.reducer;
 export const loginApi =

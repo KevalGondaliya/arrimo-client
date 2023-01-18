@@ -19,7 +19,6 @@ import React, { useEffect, useState } from "react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useDispatch, useSelector } from "react-redux";
 import interactionPlugin from "@fullcalendar/interaction";
-
 import {
   deleteEventApi,
   editEventApi,
@@ -28,9 +27,8 @@ import {
 } from "@/store/calanderSlice";
 import Header from "@/component/header";
 import { AppDispatch } from "@/store/Index";
-import { createEventId } from "../../utils/event.calander";
+import { createEventId } from "../../utils/calander.constant";
 import RenderEventContent from "@/component/renderEventContent";
-
 import styles from "./index.module.scss";
 
 const calander = () => {
