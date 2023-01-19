@@ -34,7 +34,10 @@ export default function Header() {
       </div>
       {token && (
         <>
-          <div>{userRole && `${userRole?.firstName} ${userRole.lastName}`}</div>
+          <div className={styles.userName}>
+            {" "}
+            {userRole && `${userRole?.firstName} ${userRole.lastName}`}
+          </div>
           <div>
             <Button loading={loader} onClick={handleOnClear}>
               LogOut

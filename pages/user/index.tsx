@@ -49,8 +49,7 @@ export default function UserTable() {
 
   const handleOnFinish = (values: any) => {
     values.role = "user";
-    values.passowrd = "123456";
-
+    values.password = "123456";
     const onSuccessCallback = (res: any) => {
       if (res === 200) {
         setIsEdit(false);
@@ -178,7 +177,7 @@ export default function UserTable() {
             className={styles.labelClr}
             rules={[{ required: true, message: "Please input your email" }]}
           >
-            <Input />
+            <Input disabled={isEdit} />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

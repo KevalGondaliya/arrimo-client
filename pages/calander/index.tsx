@@ -49,6 +49,7 @@ const calander = () => {
     (state: any) => state.user.logInUserData.role
   );
 
+  const loader = useSelector((state: any) => state.event.isLoading);
   useEffect(() => {
     dispatch(getEventApi(logInUserRole));
   }, []);
@@ -160,11 +161,12 @@ const calander = () => {
             initialView="dayGridMonth"
             // @ts-ignore
             events={currentEvents}
-            editable={logInUserRole === "admin" ? false : true}
+            editable={false}
             selectable={logInUserRole === "admin" ? false : true}
             select={(e) => {
               setStart(e.startStr);
               setEnd(e.endStr);
+              setCount(count + 1);
               setIsModalOpen(true);
             }}
             eventContent={(e) => <RenderEventContent eventInfo={e} />}
@@ -176,7 +178,7 @@ const calander = () => {
               setTitle(e.event.title);
               setStart(e.event.startStr);
               setEnd(e.event.endStr);
-
+              setCount(count + 1);
               setIsModalOpen(logInUserRole === "admin" ? false : true);
               setIsEdit(true);
             }}
@@ -191,9 +193,6 @@ const calander = () => {
         footer={false}
         onCancel={handleCancel}
       >
-        {startDate}
-        {"\r"}
-        {endDate}
         <Form
           key={count}
           name="basic"
@@ -239,7 +238,12 @@ const calander = () => {
             />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button onClick={handleonFinish} type="primary" htmlType="button">
+            <Button
+              onClick={handleonFinish}
+              type="primary"
+              loading={loader}
+              htmlType="button"
+            >
               {isEdit ? "Update" : "Add"}
             </Button>
             {isEdit && (
@@ -253,6 +257,7 @@ const calander = () => {
                 <Button
                   type="primary"
                   danger
+                  loading={loader}
                   htmlType="button"
                   style={{ marginLeft: "15px" }}
                 >

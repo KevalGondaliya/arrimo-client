@@ -10,8 +10,6 @@ export const headers: any = {
   "Access-Control-Request-Method": "POST, GET, DELETE",
   "Access-Control-Request-Headers": "POST, GET, DELETE",
 };
-const token = getLocalStorageValue();
-
 export function apiCall(
   requestMethod: any,
   url: any,
@@ -19,6 +17,9 @@ export function apiCall(
   onSuccess: any,
   onFailure: any
 ) {
+  const token = getLocalStorageValue();
+  console.log("token", token);
+
   if (token !== null) {
     headers["Authorization"] = "Bearer " + token;
   }
