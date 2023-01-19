@@ -10,6 +10,8 @@ export const headers: any = {
   "Access-Control-Request-Method": "POST, GET, DELETE",
   "Access-Control-Request-Headers": "POST, GET, DELETE",
 };
+
+// Create Common Function For Api Calling
 export function apiCall(
   requestMethod: any,
   url: any,

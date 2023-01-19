@@ -47,6 +47,7 @@ export default function UserTable() {
     } else dispatch(getUserApi());
   }, []);
 
+  // For Submit Form And Dispatch Add User Action Calling And Close Modal
   const handleOnFinish = (values: any) => {
     values.role = "user";
     values.password = "123456";
@@ -65,12 +66,14 @@ export default function UserTable() {
     }
   };
 
+  // For Close Modal
   const handleCancel = () => {
     setEditData(null);
     setIsModalOpen(false);
     form.resetFields();
   };
 
+  // For Edit User And Set Edit User Data
   const handleOnEdit = (item: any) => {
     form.setFieldsValue(item);
     setEditData(item);
@@ -78,6 +81,7 @@ export default function UserTable() {
     setIsModalOpen(true);
   };
 
+  // For Dispatch User Delete Api Action
   const handleOnDelete = (id: number) => {
     dispatch(deleteUserApi(id));
   };

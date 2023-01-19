@@ -41,6 +41,7 @@ export const CalanderSlice = createSlice({
 export const { setEvent, setIsEventLoading } = CalanderSlice.actions;
 export default CalanderSlice.reducer;
 
+// For Set Event APi Calling
 export const setEventApi =
   (value: any, onSuccessCallback: Function) => (dispatch: AppDispatch) => {
     dispatch(setIsEventLoading(true));
@@ -65,6 +66,7 @@ export const setEventApi =
     }
   };
 
+// For Get Event Api Calling
 export const getEventApi = (role: string) => (dispatch: AppDispatch) => {
   dispatch(setIsEventLoading(true));
   try {
@@ -91,6 +93,7 @@ export const getEventApi = (role: string) => (dispatch: AppDispatch) => {
   }
 };
 
+// For Edit Event Api Calling
 export const editEventApi =
   (value: any, id: number | null, onSuccessCallback: Function) =>
   (dispatch: AppDispatch) => {
@@ -120,6 +123,8 @@ export const editEventApi =
       dispatch(setIsEventLoading(false));
     }
   };
+
+// For Event Delete Api Calling
 export const deleteEventApi =
   (id: number | null) => (dispatch: AppDispatch) => {
     dispatch(setIsEventLoading(true));
