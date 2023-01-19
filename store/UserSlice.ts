@@ -58,6 +58,8 @@ export const userSlice = createSlice({
 export const { setToken, setUser, logOutUser, logInUser, setIsLoginLoading } =
   userSlice.actions;
 export default userSlice.reducer;
+
+// For Login Api Calling
 export const loginApi =
   (value: any, onSuccessCallback: Function) => (dispatch: AppDispatch) => {
     dispatch(setIsLoginLoading(true));
@@ -83,6 +85,7 @@ export const loginApi =
     }
   };
 
+// For Add User Api Calling
 export const setUserApi =
   (value: any, onSuccessCallback: Function) => (dispatch: AppDispatch) => {
     dispatch(setIsLoginLoading(true));
@@ -106,6 +109,7 @@ export const setUserApi =
     }
   };
 
+// For Get User Event Api Calling
 export const getUserApi = () => (dispatch: AppDispatch) => {
   dispatch(setIsLoginLoading(true));
   try {
@@ -126,6 +130,7 @@ export const getUserApi = () => (dispatch: AppDispatch) => {
   }
 };
 
+// For Edit User Api Calling
 export const editUserApi =
   (value: any, id: number, onSuccessCallback: Function) =>
   (dispatch: AppDispatch) => {
@@ -149,6 +154,8 @@ export const editUserApi =
       dispatch(setIsLoginLoading(false));
     }
   };
+
+// For Delete User APi Calling
 export const deleteUserApi = (id: number) => (dispatch: AppDispatch) => {
   dispatch(setIsLoginLoading(true));
   try {

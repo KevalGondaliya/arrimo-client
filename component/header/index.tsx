@@ -8,11 +8,15 @@ import { getLocalStorageValue } from "@/utils/localStorage";
 import styles from "./index.module.scss";
 
 export default function Header() {
-  const token = getLocalStorageValue();
   const router = useRouter();
   const dispatch = useDispatch();
+  const token = getLocalStorageValue();
+
+  // FOr Get User Role
   const userRole = useSelector((state: any) => state.user.logInUserData);
   const loader = useSelector((state: any) => state.user.isLoading);
+
+  // For Clear Localstorage And Redirect Login Page
   const handleOnClear = () => {
     localStorage.clear();
     dispatch(logOutUser());

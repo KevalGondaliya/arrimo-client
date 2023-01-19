@@ -49,6 +49,7 @@ const calander = () => {
     (state: any) => state.user.logInUserData.role
   );
 
+  // For Get Event Loader
   const loader = useSelector((state: any) => state.event.isLoading);
   useEffect(() => {
     dispatch(getEventApi(logInUserRole));
@@ -58,6 +59,7 @@ const calander = () => {
     setCurrentEvents(getEventData);
   }, [getEventData]);
 
+  // For Cancel Form And Close Modal
   const handleCancel = () => {
     setCount(count + 1);
     setIsModalOpen(false);
@@ -67,6 +69,7 @@ const calander = () => {
     setEnd(null);
   };
 
+  // For Submit Form And Dispatch Add Event Action
   const handleonFinish = () => {
     const onSuccessCallback = (res: any) => {
       if (res.status === 200) {
@@ -117,6 +120,7 @@ const calander = () => {
     }
   };
 
+  // For Delete Event And Reset Event Form And Close Modal
   const handleonDelete = () => {
     if (isEdit) {
       setTitle(null);
@@ -129,6 +133,7 @@ const calander = () => {
     }
   };
 
+  // For Get Event Start Event
   const handleStartDateChange: DatePickerProps["onChange"] = (
     date: Dayjs | null
   ) => {
@@ -136,6 +141,7 @@ const calander = () => {
     setStart(start);
   };
 
+  // For Get Event End Event
   const handleEndDateChange: DatePickerProps["onChange"] = (
     date: Dayjs | null
   ) => {

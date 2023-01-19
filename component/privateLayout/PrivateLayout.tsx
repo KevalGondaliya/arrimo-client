@@ -10,6 +10,7 @@ export const PrivateLayout: React.FC<ILayoutProps> = ({ children }) => {
   const token = getLocalStorageValue();
   const router = useRouter();
 
+  // For Get User Token
   useEffect(() => {
     if (!token) {
       router.push("/");
