@@ -14,7 +14,7 @@ export default function Login() {
 
   const loader = useSelector((state: any) => state.user.isLoading);
   const logInUserRole = useSelector(
-    (state: any) => state.user.logInUserData.role
+    (state: any) => state?.user?.logInUserData?.role
   );
 
   useEffect(() => {

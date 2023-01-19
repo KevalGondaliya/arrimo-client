@@ -1,4 +1,5 @@
-const BASE_URL = "http://localhost:8088";
+// const BASE_URL = "http://localhost:8088";
+const BASE_URL = "http://192.168.29.195:3000";
 
 export const apiUrl = {
   logIn: `${BASE_URL}/users/login`,
